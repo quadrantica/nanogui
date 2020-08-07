@@ -140,8 +140,8 @@ void ImageView::draw(NVGcontext *ctx) {
         nvgBeginPath(ctx);
         nvgStrokeWidth(ctx, 1.f);
         nvgStrokeColor(ctx, m_image_border_color);
-        nvgRect(ctx, m_pos.x() - .5f + top_left.x(),
-                     m_pos.y() - .5f + top_left.y(),
+        nvgRect(ctx, m_pos.x() - 0.5f + top_left.x(),
+                     m_pos.y() - 0.5f + top_left.y(),
                      size.x() + 1.f, size.y() + 1.f);
         nvgStroke(ctx);
     }
@@ -197,15 +197,15 @@ void ImageView::draw_contents() {
 
     /* Ensure that 'offset' is a multiple of the pixel ratio */
     float pixel_ratio = screen()->pixel_ratio();
-    m_offset = Vector2i(Vector2i(m_offset / pixel_ratio) * pixel_ratio);
+    Vector2f offset=Vector2i((Vector2f(m_offset) * pixel_ratio) / pixel_ratio);
 
     Vector2f bound1 = m_size * pixel_ratio,
              bound2 = -Vector2f(m_image->size()) * scale();
 
-    if ((m_offset.x() >= bound1.x()) != (m_offset.x() < bound2.x()))
-        m_offset.x() = std::max(std::min(m_offset.x(), bound1.x()), bound2.x());
-    if ((m_offset.y() >= bound1.y()) != (m_offset.y() < bound2.y()))
-        m_offset.y() = std::max(std::min(m_offset.y(), bound1.y()), bound2.y());
+    if ((offset.x() >= bound1.x()) != (offset.x() < bound2.x()))
+        offset.x() = std::max(std::min(offset.x(), bound1.x()), bound2.x());
+    if ((offset.y() >= bound1.y()) != (offset.y() < bound2.y()))
+        offset.y() = std::max(std::min(offset.y(), bound1.y()), bound2.y());
 
     Vector2i viewport_size = render_pass()->viewport().second;
 
@@ -217,7 +217,7 @@ void ImageView::draw_contents() {
 
     Matrix4f matrix_image =
         Matrix4f::ortho(0.f, viewport_size.x(), viewport_size.y(), 0.f, -1.f, 1.f) *
-        Matrix4f::translate(Vector3f(m_offset.x(), (int) m_offset.y(), 0.f)) *
+        Matrix4f::translate(Vector3f(offset.x(), (int) offset.y(), 0.f)) *
         Matrix4f::scale(Vector3f(m_image->size().x() * scale,
                                  m_image->size().y() * scale, 1.f));
 
