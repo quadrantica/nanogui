@@ -366,7 +366,7 @@ public:
      * The alpha component of the color, will be divided by ``255.0``.
      */
     Color(size_t intensity, int alpha)
-        : Color(Vector3i(intensity), alpha) { }
+        : Color(Vector3i((int)intensity), alpha) { }
 
     /**
      * Explicit constructor: creates the Color ``(r, g, b, a)``.
