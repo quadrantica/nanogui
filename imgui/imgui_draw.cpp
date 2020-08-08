@@ -3193,7 +3193,7 @@ void ImGui::RenderArrow(ImDrawList* draw_list, ImVec2 pos, ImU32 col, ImGuiDir d
     const float h = draw_list->_Data->FontSize * 1.00f;
     float r = h * 0.40f * scale;
     ImVec2 center = pos + ImVec2(h * 0.50f, h * 0.50f * scale);
-    ImWchar cc='-';
+
     ImVec2 a, b, c;
     switch (dir)
     {
@@ -3203,7 +3203,6 @@ void ImGui::RenderArrow(ImDrawList* draw_list, ImVec2 pos, ImU32 col, ImGuiDir d
         a = ImVec2(+0.000f, +0.750f) * r;
         b = ImVec2(-0.866f, -0.750f) * r;
         c = ImVec2(+0.866f, -0.750f) * r;
-        cc='v';
         break;
     case ImGuiDir_Left:
     case ImGuiDir_Right:
@@ -3211,16 +3210,13 @@ void ImGui::RenderArrow(ImDrawList* draw_list, ImVec2 pos, ImU32 col, ImGuiDir d
         a = ImVec2(+0.750f, +0.000f) * r;
         b = ImVec2(-0.750f, +0.866f) * r;
         c = ImVec2(-0.750f, -0.866f) * r;
-        cc='>';
         break;
     case ImGuiDir_None:
     case ImGuiDir_COUNT:
         IM_ASSERT(0);
         break;
     }
-
-    //draw_list->AddTriangleFilled(center + a, center + b, center + c, col);
-    draw_list->_Data->Font->RenderChar(draw_list,-1,center-ImVec2(r*0.5,r*1.3),GetColorU32(ImGuiCol_Text),cc);
+    draw_list->AddTriangleFilled(center + a, center + b, center + c, col);
 }
 
 void ImGui::RenderBullet(ImDrawList* draw_list, ImVec2 pos, ImU32 col)
