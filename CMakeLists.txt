@@ -575,11 +575,43 @@ endif()
 
 # Build example application if desired
 if (NANOGUI_BUILD_EXAMPLES)
-  add_executable(example1      src/example1.cpp)
+  source_group(ImGui FILES  imgui/imgui.cpp
+                            imgui/imgui_demo.cpp
+                            imgui/imgui_draw.cpp
+                            imgui/imgui_impl_glfw.cpp
+                            imgui/imgui_impl_opengl3.cpp
+                            imgui/imgui_widgets.cpp
+                            imgui/imconfig.h
+                            imgui/imgui.h
+                            imgui/imgui_impl_opengl3.h
+                            imgui/imgui_impl_glfw.h
+                            imgui/imgui_internal.h
+                            imgui/imstb_rectpack.h
+                            imgui/imstb_textedit.h
+                            imgui/imstb_truetype.h )
+  source_group(ImGuiColorTextEdit FILES  ImGuiColorTextEdit/TextEditor.cpp ImGuiColorTextEdit/TextEditor.h)
+  add_executable(example1   src/example1.cpp 
+                            imgui/imgui.cpp
+                            imgui/imgui_demo.cpp
+                            imgui/imgui_draw.cpp
+                            imgui/imgui_impl_glfw.cpp
+                            imgui/imgui_impl_opengl3.cpp
+                            imgui/imgui_widgets.cpp  
+                            imgui/imconfig.h
+                            imgui/imgui.h
+                            imgui/imgui_impl_opengl3.h
+                            imgui/imgui_impl_glfw.h
+                            imgui/imgui_internal.h
+                            imgui/imstb_rectpack.h
+                            imgui/imstb_textedit.h
+                            imgui/imstb_truetype.h
+                            ImGuiColorTextEdit/TextEditor.cpp ImGuiColorTextEdit/TextEditor.h)
   add_executable(example2      src/example2.cpp)
   add_executable(example3      src/example3.cpp)
   add_executable(example4      src/example4.cpp)
   add_executable(example_icons src/example_icons.cpp)
+  
+
 
   target_link_libraries(example1      nanogui)
   target_link_libraries(example2      nanogui)
