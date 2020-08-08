@@ -569,7 +569,7 @@ public:
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/ProggyTiny.ttf", 10.0f);
     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
     //IM_ASSERT(font != NULL);
-    io.Fonts->AddFontFromFileTTF("../resources/Inconsolata-Regular.ttf", 14.0f*1.25);
+    io.Fonts->AddFontFromFileTTF("../resources/Inconsolata-Regular.ttf", 18.0f*1.25);
     // Our state
     bool show_demo_window = true;
     bool show_another_window = false;
@@ -705,14 +705,19 @@ public:
         #if 1
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
+
+        glfwGetFramebufferSize(m_glfw_window, &display_w, &display_h);
+
+
         ImGui::NewFrame();
 
-        ImGui::ShowDemoWindow();
+
         {
 		auto cpos = editor.GetCursorPosition();
-		ImGui::Begin("Text Editor Demo", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar);
-		ImGui::SetWindowSize(ImVec2(800, 600), ImGuiCond_FirstUseEver);
-		if (ImGui::BeginMenuBar())
+		ImGui::Begin("Text Editor Demo", nullptr, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize  | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoBringToFrontOnFocus);
+		ImGui::SetWindowPos(ImVec2(0, 0), ImGuiCond_Always);
+		ImGui::SetWindowSize(ImVec2(display_w, display_h), ImGuiCond_Always);
+		if (ImGui::BeginMainMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
 			{
@@ -766,7 +771,7 @@ public:
 					editor.SetPalette(TextEditor::GetRetroBluePalette());
 				ImGui::EndMenu();
 			}
-			ImGui::EndMenuBar();
+			ImGui::EndMainMenuBar();
 		}
 
 		ImGui::Text("%6d/%-6d %6d lines  | %s | %s | %s | %s", cpos.mLine + 1, cpos.mColumn + 1, editor.GetTotalLines(),
@@ -778,7 +783,9 @@ public:
 
         }
 
-        {
+        ImGui::ShowDemoWindow();
+
+        if(0){
             static float f = 0.0f;
             static int counter = 0;
 
@@ -797,14 +804,14 @@ public:
             ImGui::Text("counter = %d", counter);
 
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            ImGui::End();
+            
         }
 
+        ImGui::End();
 
         // Rendering
         ImGui::Render();
 
-        glfwGetFramebufferSize(m_glfw_window, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
         //glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         //glClear(GL_COLOR_BUFFER_BIT);
